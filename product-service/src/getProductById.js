@@ -1,8 +1,8 @@
 import productList from './productList.json';
 
 export const getProductById = async (event) => {
-  console.log('Lambda invocation with event: ', event);
-  const { productId } = event.queryStringParams.productId
+  console.log('getProductById lambda called with event: ', event);
+  const { productId } = event.pathParameters;
 
   return {
     statusCode: 200,
