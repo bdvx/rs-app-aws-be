@@ -98,9 +98,9 @@
             "type": "string",
             "description": "Product Title"
           },
-          "complete": {
-            "type": "boolean",
-            "default": false
+          "image": {
+            "type": "string",
+            "description": "Image in base64 format"
           }
         }
       },
