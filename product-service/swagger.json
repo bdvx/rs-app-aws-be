@@ -7,10 +7,6 @@
   },
   "servers": [
     {
-      "url": "https://virtserver.swaggerhub.com/bdvx/rs-app-aws-product-api/1.0.0",
-      "description": "SwaggerHub API Auto Mocking"
-    },
-    {
       "url": "https://755vvfmegj.execute-api.eu-west-1.amazonaws.com/dev/",
       "description": "API link"
     }
