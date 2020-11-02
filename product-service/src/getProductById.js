@@ -1,11 +1,10 @@
-import productList from './productList.json';
+import productList from './productList.js';
 
 const headers = { "Access-Control-Allow-Origin": "*" };
 
 export const getProductById = async (event) => {
   console.log('getProductById lambda called with event: ', event);
   const { productId } = event.pathParameters;
-
   // emulate delay from remote URL fetch
   // suppose we'll get real URL here and not file with hardcoded values
   await new Promise(resolve => setTimeout(resolve, 2000));
