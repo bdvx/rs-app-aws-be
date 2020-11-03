@@ -12,7 +12,7 @@ export const getProductById = async (event) => {
   // search needed product - by id field
   const product = productList.find((prod) => prod.id === productId);
 
-  if (product === -1){
+  if (!product){
     return {
         headers,
         statusCode: 404,
