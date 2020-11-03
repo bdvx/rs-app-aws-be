@@ -100,7 +100,7 @@
           },
           "image": {
             "type": "string",
-            "description": "Image in base64 format"
+            "description": "URL of image in jpeg format"
           }
         }
       },
