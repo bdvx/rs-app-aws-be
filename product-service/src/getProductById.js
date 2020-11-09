@@ -1,6 +1,7 @@
 import { Client } from 'pg';
 import { headers, errMessage } from './helpers.js';
 import { DB_OPTIONS } from './constants.js';
+import { URL } from './productList.js';
 
 export const getProductById = async (event) => {
   const { productId } = event.pathParameters;
@@ -11,9 +12,11 @@ export const getProductById = async (event) => {
 
   try {
   // search needed product - by id field
-  const { rows } = await client.query(`
+  let { rows } = await client.query(`
   select * from products p inner join stocks s on p.id = s.product_id where p.id = '${productId}'
   `);
+  // string just to add image mock, will be removed
+  rows = rows.map((val)=>{val.image = URL; return val;});
 
   if (!rows.length){
     return {

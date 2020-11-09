@@ -1,6 +1,7 @@
 import { Client } from 'pg';
 import { headers, errMessage } from './helpers.js';
 import { DB_OPTIONS } from './constants.js';
+import { URL } from './productList.js';
 
 export const getAllProducts = async (event) => {
   console.log('getAllProducts lambda called with event: ', event);
@@ -16,6 +17,9 @@ export const getAllProducts = async (event) => {
   select * from products p inner join stocks s on p.id = s.product_id
   `);
 
+    // string just to add image mock, will be removed
+    rows = rows.map((val)=>{val.image = URL; return val;});
+
   if (!rows){
     return {
         headers,
@@ -23,7 +27,7 @@ export const getAllProducts = async (event) => {
         body: "Target products were not found",
       };
   }
-  
+
   return {
     headers,
     statusCode: 200,
