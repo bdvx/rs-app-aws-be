@@ -13,7 +13,7 @@ export const getAllProducts = async (event) => {
   try {
 
   // search needed product - by id field
-  const { rows } = await client.query(`
+  let { rows } = await client.query(`
   select * from products p inner join stocks s on p.id = s.product_id
   `);
 

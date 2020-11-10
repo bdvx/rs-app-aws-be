@@ -4,8 +4,8 @@ import { DB_OPTIONS } from './constants.js';
 import { URL } from './productList.js';
 
 export const getProductById = async (event) => {
-  const { productId } = event.pathParameters;
   console.log('getProductById lambda called with event: ', event);
+  const { productId } = event.pathParameters;
   // get new DB client (cause using pools is not good for lambdas)
   const client = new Client(DB_OPTIONS);
   await client.connect();

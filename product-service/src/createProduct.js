@@ -3,30 +3,28 @@ import { headers, errMessage } from './helpers.js';
 import { DB_OPTIONS } from './constants.js';
 
 export const createProduct = async(event) => {
-
-  const { title, count, description, price } = event.body;
   console.log('createProduct lambda called with event: ', event);
-
+  const { title, count, description, price } = JSON.parse(event.body);
+  
   if (!(title && (count && !isNaN(count) && count > 0) && description && (price && !isNaN(price) && price > 0))) {
     return {
       statusCode: 400,
       headers,
-      body: 'Wrong parameters'
+      body: `Wrong parameters: title: ${title}, count ${count}, description ${description}, price ${price}`
     }
   }
-  
   // get new DB client (cause using pools is not good for lambdas)
   const client = new Client(DB_OPTIONS);
   await client.connect();
     try {
       await client.query('BEGIN')
       const { rows } = await client.query(
-        `insert into products (title, description, price) values ('$1', '$2', $3) returning *`,
+        `insert into products (title, description, price) values ($1, $2, $3) returning *`,
         [title, description, price]
       );
       await client.query(
-        `insert into stocks (product_id, count) values ('$1', $2) returning product_id`,
-        [rows.id, count]
+        `insert into stocks (product_id, count) values ($1, $2) returning product_id`,
+        [rows[0].id, count]
       );
       await client.query('COMMIT')
       return {
