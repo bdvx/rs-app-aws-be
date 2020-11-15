@@ -1,0 +1,41 @@
+service: import-service
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-west-1
+
+iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource: 
+        - "arn:aws:s3:::rs-app-aws-be-import-service"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: 
+        - "arn:aws:s3:::rs-app-aws-be-import-service/*"
+
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile 
+    events:
+      - http:
+          method: get
+          path: import
+          cors: true
+      - s3:
+          bucket: rs-app-aws-be-import-service
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: images/
+          existing: true
+
