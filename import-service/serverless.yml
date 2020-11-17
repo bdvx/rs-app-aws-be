@@ -13,16 +13,19 @@ provider:
   stage: dev
   region: eu-west-1
 
+plugins:
+  - serverless-dotenv-plugin
+
 iamRoleStatements:
     - Effect: "Allow"
       Action: "s3:ListBucket"
       Resource: 
-        - "arn:aws:s3:::rs-app-aws-be-import-service"
+        - "arn:aws:s3:::${env:BUCKET}"
     - Effect: "Allow"
       Action:
         - "s3:*"
       Resource: 
-        - "arn:aws:s3:::rs-app-aws-be-import-service/*"
+        - "arn:aws:s3:::${env:BUCKET}/*"
 
 functions:
   importProductsFile:
@@ -33,7 +36,7 @@ functions:
           path: import
           cors: true
       - s3:
-          bucket: rs-app-aws-be-import-service
+          bucket: '${env:BUCKET}'
           event: s3:ObjectCreated:*
           rules:
             - prefix: images/

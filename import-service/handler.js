@@ -1,20 +1,7 @@
-'use strict';
+import { importFileParser } from './src/importFileParser.js';
+import { importProductsFile } from './src/importProductsFile.js';
 
-const BUCKET = 'rs-app-aws-be-import-service';
-
-module.exports.importProductsFile = async event => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
-};
+export {
+  importFileParser,
+  importProductsFile
+}
