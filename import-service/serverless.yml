@@ -36,10 +36,17 @@ functions:
           method: get
           path: import
           cors: true
+          request: 
+            parameters: 
+              querystrings: 
+                name: true
+  importFileParser:
+    handler: handler.importFileParser 
+    events:
       - s3:
           bucket: '${env:BUCKET}'
           event: s3:ObjectCreated:*
           rules:
-            - prefix: images/
+            - prefix: uploaded/
           existing: true
 
