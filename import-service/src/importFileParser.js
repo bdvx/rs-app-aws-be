@@ -1,16 +1,14 @@
 import AWS from 'aws-sdk';
-import CSV from 'csv-parser';
 import { errMessage } from './helpers.js';
 
 export const importFileParser = async (event) => {
     console.log('importFileParser lambda called with event: ', event);
 
     const { BUCKET: Bucket, REGION: region } = process.env;
-
-    const s3 = new AWS.S3({region, signatureVersion: 'v4'});
-        
+    
     try {
-
+        const s3 = new AWS.S3({region, signatureVersion: 'v4'});
+        const csv = require('csv-parser');
         for( const record of (event.Records || []) ){
 
             const { key: Key } = record.s3.object || {};
@@ -19,14 +17,17 @@ export const importFileParser = async (event) => {
 
             const s3Stream = s3.getObject(params).createReadStream();
 
-            s3Stream
-                .pipe(CSV())
+            await new Promise((resolve, reject) =>{
+            s3Stream.pipe(csv())
                 .on('data', (data) => { console.log('CSV DATA:', data); })
-                .on('error', (error) => { console.log('importFileParser parse error:', error); })
+                .on('error', (error) => { 
+                    console.log('importFileParser parse error:', error);
+                    reject();
+                })
                 .on('end', async () => {
                     await s3.copyObject({
                         Bucket,
-                        CopySource: `${Bucket}/${Key}`,
+                        CopySource: encodeURIComponent(`${Bucket}/${Key}`),
                         Key: parsedKey,
                     }).promise();
 
@@ -34,7 +35,9 @@ export const importFileParser = async (event) => {
 
                     await s3.deleteObject(params)
                             .promise();
+                    resolve();
                 })
+            })
         }
 
       } catch (err) {
