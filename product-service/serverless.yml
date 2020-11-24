@@ -5,7 +5,7 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: eu-west-1
-  
+
   # Variables
   environment:
     PG_HOST: '${env:PG_HOST}'
@@ -36,6 +36,8 @@ custom:
   webpack:
     webpackConfig: 'webpack.config.js'
     includeModules: true
+
+
 
 resources:
   Resources:
@@ -73,7 +75,6 @@ resources:
               - 15000
 
 
-
 functions:
   getAllProducts:
     handler: handler.getAllProducts
@@ -102,3 +103,13 @@ functions:
           path: products
           method: post
           cors: true
+  
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt: 
+              - SQSQueue
+              - Arn
