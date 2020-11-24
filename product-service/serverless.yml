@@ -55,7 +55,24 @@ resources:
         Endpoint: '${env:EMAIL}'
         Protocol: email
         TopicArn:
-          Ref: SNSTopic   
+          Ref: SNSTopic  
+        FilterPolicy:
+          price: 
+            - numeric:
+              - ">"
+              - 15000
+    SNSSideSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: '${env:SIDEEMAIL}'
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic  
+        FilterPolicy:
+          price: 
+            - numeric:
+              - "<"
+              - 15000
 
 
 functions:
