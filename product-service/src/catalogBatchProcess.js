@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import { errMessage } from '../../import-service/src/helpers.js';
+import { createProduct } from './createProduct.js';
 
 export const catalogBatchProcess = async (event) => {
     console.log('catalogBatchProcess lambda called with event: ', event);
