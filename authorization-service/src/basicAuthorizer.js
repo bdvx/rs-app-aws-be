@@ -17,8 +17,8 @@ const generatePolicy = ( principalId = 'none', effect = 'Deny', resource) => (
 const decodeToken = (token) => {
     const encodedVal = token.split(' ')[1];
     const buffer = Buffer.from(encodedVal, 'base64');
-    const credArray = buffer.toString('ascii').split("=");
-    if (!(credArray && credArray.length !== 2)){
+    const credArray = buffer.toString('utf-8').split("=");
+    if (!(credArray && credArray.length === 2)){
         throw new Error("fail to fetch token");
     }
     return credArray;
@@ -31,7 +31,7 @@ export const basicAuthorizer = async (event, _, cb) => {
         const { authorizationToken, methodArn } = event;
 
         if(!authorizationToken){
-           return cb('Unathorized');
+           return cb('Unauthorized');
         }
 
         const [username, password] = decodeToken(authorizationToken);
@@ -40,13 +40,12 @@ export const basicAuthorizer = async (event, _, cb) => {
 
         const envPassword = process.env[username];
         const effect = (envPassword && envPassword === password) ? 'Allow' : 'Deny';
-        
         const policy = generatePolicy(username, effect, methodArn);
         cb(null, policy)
 
     } catch (error) {
         console.error('basicAuthorizer lambda crashed with error', error);
-        cb('Unathorized');
+        cb('Unauthorized');
     }
 
 }
