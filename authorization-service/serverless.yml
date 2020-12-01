@@ -18,7 +18,6 @@ custom:
     includeModules: true
 
 
-
 functions:
   basicAuthorizer:
     handler: handler.basicAuthorizer
