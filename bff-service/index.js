@@ -13,7 +13,7 @@ const TTL = 120000; //difference in ms to reduce calculations
 const cache = {};
 
 app.all('/*', (request, response) => {
-    const {originalUrl, method, body, headers: {authorization}} = request;
+    const {originalUrl, method, body} = request;
 
     const recipient = originalUrl.split('/')[1];
     console.log('recipient', recipient);
