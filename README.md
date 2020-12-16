@@ -10,7 +10,7 @@ Endpoints:
 
 [authorizationService](authorizationService) (POST)
 
-[bff-service](https://755vvfmegj.execute-api.eu-west-1.amazonaws.com/)
+[bff-service](http://bdvx-bff-api-dev.eu-west-1.elasticbeanstalk.com/products)
 
 Swagger API link - https://app.swaggerhub.com/apis/bdvx/rs-app-aws-product-api/1.0.0 (or you can access swagger.json in repo)
 
