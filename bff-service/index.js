@@ -31,7 +31,7 @@ app.all('/*', (request, response) => {
 
         // managing cache
         if (recipient === 'products' && cache.products){
-            var diff = Date().now() - cache.products.timeStamp;
+            var diff = Date.now() - cache.products.timeStamp;
             if(diff > TTL){
                 delete cache.products;
             } else {
