@@ -1,5 +1,9 @@
 # rs-app-aws-be
 
+Brief scheme of fe/be architecture:
+
+![app scheme](Scheme.png "Scheme")
+
 Endpoints: 
 
 [getProductsList](https://755vvfmegj.execute-api.eu-west-1.amazonaws.com/dev/products) (GET)
