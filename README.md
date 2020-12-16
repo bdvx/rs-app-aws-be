@@ -2,7 +2,7 @@
 
 Brief scheme of fe/be architecture:
 
-![app scheme](Scheme.png "Scheme")
+![app scheme](Scheme.PNG "Scheme")
 
 Endpoints: 
 
